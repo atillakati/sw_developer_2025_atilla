@@ -35,3 +35,7 @@ Weitere Infos zu Markdown:
 - [Cheat Sheet](https://www.markdownguide.org/cheat-sheet/)
 - [Code Academy](https://www.codecademy.com/resources/docs/markdown/tables)
 
+![Demo Bild](/doc/images/demoImage.drawio.png)
+
+
+[STRG] + [SHIFT] + P
