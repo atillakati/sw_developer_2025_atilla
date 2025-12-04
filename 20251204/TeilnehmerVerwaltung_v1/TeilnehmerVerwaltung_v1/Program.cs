@@ -27,6 +27,7 @@ namespace TeilnehmerVerwaltung_v1
             int plz = 0;
             DateTime geburtsDatum = DateTime.MinValue;
             string userInput = string.Empty;
+            bool isUserInputValid = false;  
 
             int startPositionX = 0;
             string headerString = "Teilnehmer-Verwaltung v1.0";
@@ -49,11 +50,37 @@ namespace TeilnehmerVerwaltung_v1
             Console.Write("\tWohnort: ");
             wohnort = Console.ReadLine();
 
-            Console.Write("\tPLZ: "); 
-            plz = int.Parse(Console.ReadLine());
+            do
+            {
+                try
+                {
+                    Console.Write("\tPLZ: ");
+                    plz = int.Parse(Console.ReadLine());
+                    isUserInputValid = true;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("\aERROR: " + ex.Message);
+                    isUserInputValid = false;
+                } 
+            } 
+            while (isUserInputValid == false);
 
-            Console.Write("\tGeburtsdatum (dd.mm.yyyy): ");
-            geburtsDatum = DateTime.Parse(Console.ReadLine());
+            do
+            {
+                try
+                {
+                    Console.Write("\tGeburtsdatum (dd.mm.yyyy): ");
+                    geburtsDatum = DateTime.Parse(Console.ReadLine());
+
+                    isUserInputValid = true;
+                }
+                catch
+                {
+                    isUserInputValid = false;
+                } 
+            }
+            while (isUserInputValid == false);
 
             //3. Ausgabe der Daten
             Console.WriteLine("\nFolgende Daten wurden erfasst:\n");
