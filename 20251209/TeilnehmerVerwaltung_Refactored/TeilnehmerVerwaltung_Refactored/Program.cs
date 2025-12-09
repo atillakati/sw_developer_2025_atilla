@@ -26,9 +26,7 @@ namespace TeilnehmerVerwaltung_Refactored
             string wohnort = string.Empty;
             int plz = 0;
             DateTime geburtsDatum = DateTime.MinValue;
-            string userInput = string.Empty;
-            bool isUserInputValid = false;
-
+            string userInput = string.Empty;           
 
             //1. Ausgabe Header
             CreateHeader("Teilnehmer-Verwaltung v1.1");
@@ -42,7 +40,8 @@ namespace TeilnehmerVerwaltung_Refactored
             wohnort = Console.ReadLine();
 
             plz = GetInt("\tPlz: ");
-            isUserInputValid = GetDateTime(ref geburtsDatum);
+
+            geburtsDatum = GetDateTime("\tGeburtstag (dd.mm.yyyy): ");
 
             //3. Ausgabe der Daten
             Console.WriteLine("\nFolgende Daten wurden erfasst:\n");
@@ -55,15 +54,18 @@ namespace TeilnehmerVerwaltung_Refactored
             Console.ResetColor();
         }
 
-        private static bool GetDateTime(ref DateTime geburtsDatum)
+
+        static DateTime GetDateTime(string inputPrompt)
         {
             bool isUserInputValid;
+            DateTime inputValue = DateTime.MinValue;
+
             do
             {
                 try
                 {
-                    Console.Write("\tGeburtsdatum (dd.mm.yyyy): ");
-                    geburtsDatum = DateTime.Parse(Console.ReadLine());
+                    Console.Write(inputPrompt);
+                    inputValue = DateTime.Parse(Console.ReadLine());
 
                     isUserInputValid = true;
                 }
@@ -73,7 +75,8 @@ namespace TeilnehmerVerwaltung_Refactored
                 }
             }
             while (isUserInputValid == false);
-            return isUserInputValid;
+
+            return inputValue;
         }
 
         static int GetInt(string inputPrompt)
