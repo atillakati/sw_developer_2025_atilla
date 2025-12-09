@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Wifi.Toolbox.TestApplication/Wifi.Toolbox.TestApplication.csproj" />
+  <Project Path="Wifi.Toolbox.Tools/Wifi.Toolbox.Tools.csproj" />
+</Solution>
