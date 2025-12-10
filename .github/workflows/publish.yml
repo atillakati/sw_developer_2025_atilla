@@ -24,10 +24,10 @@ jobs:
         run: dotnet restore
 
       - name: Build
-        run: dotnet build --configuration Release --no-restore
+        run: dotnet build 20251209/Wifi.Toolbox/Wifi.Toolbox.csproj --configuration Release --no-restore
 
       - name: Pack NuGet package
-        run: dotnet pack --configuration Release --no-build -o ./artifacts
+        run: dotnet pack 20251209/Wifi.Toolbox/Wifi.Toolbox.csproj --configuration Release --no-build -o ./artifacts
 
       # --- Publish to GitHub Packages ---
       - name: Publish to GitHub Packages
