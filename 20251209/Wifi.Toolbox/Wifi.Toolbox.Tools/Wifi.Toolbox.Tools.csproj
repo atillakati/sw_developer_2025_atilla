@@ -22,10 +22,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Include="..\Logo.jpg">
-	    <Pack>True</Pack>
-	    <PackagePath>\</PackagePath>
-	  </None>
+		<None Include="Logo.jpg" Pack="true" PackagePath="" />
 	</ItemGroup>
 
 	<!-- Only add specific items if you need to override defaults.
