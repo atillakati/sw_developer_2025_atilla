@@ -1,11 +1,9 @@
 name: Publish NuGet Package
 
 on:
-  push:
-    branches:
-      - main
+  push:    
     tags:
-      - 'v*.*.*'   # optional: only run on version tags like v1.0.0
+      - '*.*.*'   # optional: only run on version tags like v1.0.0
 
 permissions:
   contents: read
