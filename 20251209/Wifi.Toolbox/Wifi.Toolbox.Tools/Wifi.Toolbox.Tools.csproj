@@ -9,7 +9,7 @@
 		<Authors>Atilla Kati</Authors>
 		<Description>A awesome library with tools for use in Console applications</Description>
 		<PackageTags>utilities;framework48</PackageTags>
-		<RepositoryUrl>https://github.com/you/MyLibrary</RepositoryUrl>
+		<RepositoryUrl>https://github.com/atillakati/sw_developer_2025_atilla/tree/develop/20251209/Wifi.Toolbox</RepositoryUrl>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
 
