@@ -16,9 +16,17 @@
 		<!-- Optional: if you keep AssemblyInfo.cs -->
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 		<Title>WIFI Toolbox</Title>
-		<PackageProjectUrl>https://github.com/atillakati/sw_developer_2025_atilla</PackageProjectUrl>
+		<PackageProjectUrl>https://github.com/atillakati/sw_developer_2025_atilla/tree/develop/20251209/Wifi.Toolbox</PackageProjectUrl>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<PackageIcon>Logo.jpg</PackageIcon>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Include="..\Logo.jpg">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	</ItemGroup>
 
 	<!-- Only add specific items if you need to override defaults.
        SDK-style projects auto-include *.cs under the project folder. -->

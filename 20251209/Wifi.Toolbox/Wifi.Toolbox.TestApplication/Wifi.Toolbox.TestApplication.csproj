@@ -50,10 +50,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Wifi.Toolbox.Tools\Wifi.Toolbox.Tools.csproj">
-      <Project>{01de42f7-8823-4273-b545-00af701a797a}</Project>
-      <Name>Wifi.Toolbox.Tools</Name>
-    </ProjectReference>
+    <PackageReference Include="Wifi.Toolbox">
+      <Version>1.0.0</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
