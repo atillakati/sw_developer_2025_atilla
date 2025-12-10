@@ -29,7 +29,7 @@ jobs:
         run: dotnet build 20251209/Wifi.Toolbox/Wifi.Toolbox.Tools/Wifi.Toolbox.Tools.csproj --configuration Release --no-restore
 
       - name: Pack NuGet package
-        run: dotnet pack 20251209/Wifi.Toolbox/Wifi.Toolbox.Tools/Wifi.Toolbox.Tools.csproj --configuration Release --no-build -o ./artifacts
+        run: dotnet pack 20251209/Wifi.Toolbox/Wifi.Toolbox.Tools/Wifi.Toolbox.Tools.csproj --configuration Release -p:PackageVersion=${GITHUB_REF_NAME} --no-build -o ./artifacts
 
       # --- Publish to GitHub Packages ---
       - name: Publish to GitHub Packages
