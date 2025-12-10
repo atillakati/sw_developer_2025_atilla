@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net48</TargetFramework>
+
+		<!-- NuGet package metadata -->
+		<PackageId>Wifi.Toolbox</PackageId>
+		<Version>1.0.0</Version>
+		<Authors>Atilla Kati</Authors>
+		<Description>A awesome library with tools for use in Console applications</Description>
+		<PackageTags>utilities;framework48</PackageTags>
+		<RepositoryUrl>https://github.com/you/MyLibrary</RepositoryUrl>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+
+		<!-- Optional: if you keep AssemblyInfo.cs -->
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<Title>WIFI Toolbox</Title>
+		<PackageProjectUrl>https://github.com/atillakati/sw_developer_2025_atilla/tree/develop/20251209/Wifi.Toolbox</PackageProjectUrl>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<PackageIcon>Logo.jpg</PackageIcon>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Include="..\Logo.jpg">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	</ItemGroup>
+
+	<!-- Only add specific items if you need to override defaults.
+       SDK-style projects auto-include *.cs under the project folder. -->
+
+	<!-- Example: embed a file -->
+	<!--
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\MyStrings.resx" />
+  </ItemGroup>
+  -->
+</Project>
+
