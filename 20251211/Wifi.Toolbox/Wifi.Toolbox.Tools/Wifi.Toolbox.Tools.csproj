@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net48</TargetFramework>
+
+		<!-- NuGet package metadata -->
+		<PackageId>Wifi.Toolbox</PackageId>
+		<Version>1.0.0</Version>
+		<Authors>Atilla Kati</Authors>
+		<Description>A awesome library with tools for use in Console applications</Description>
+		<PackageTags>utilities;framework48</PackageTags>
+		<RepositoryUrl>https://github.com/atillakati/sw_developer_2025_atilla/tree/develop/20251209/Wifi.Toolbox</RepositoryUrl>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+
+		<!-- Optional: if you keep AssemblyInfo.cs -->
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<Title>WIFI Toolbox</Title>
+		<PackageProjectUrl>https://github.com/atillakati/sw_developer_2025_atilla/tree/develop/20251209/Wifi.Toolbox</PackageProjectUrl>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<PackageIcon>Logo.png</PackageIcon>
+		<PackageReadmeFile>readme.md</PackageReadmeFile>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="..\readme.md" Pack="true" PackagePath="\" />
+		<None Include="Logo.png" Pack="true" PackagePath="" />
+	</ItemGroup>	
+</Project>
+
