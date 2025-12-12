@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>net48</TargetFramework>
@@ -22,12 +22,12 @@ The following methods are included in the package:
 		<Title>WIFI Toolbox</Title>
 		<PackageProjectUrl>https://github.com/atillakati/sw_developer_2025_atilla/tree/develop/20251211/Wifi.Toolbox</PackageProjectUrl>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
-		<PackageIcon>Logo.png</PackageIcon>
+		<PackageIcon>package-icon.png</PackageIcon>
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<None Include="Logo.png" Pack="True" PackagePath="\" />
+		<None Update="package-icon.png" Pack="true" PackagePath="\" />
 	    <None Update="readme.md" Pack="true" PackagePath="\" />
 	</ItemGroup>	
 </Project>
