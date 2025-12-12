@@ -27,11 +27,8 @@ The following methods are included in the package:
 	</PropertyGroup>
 
 	<ItemGroup>
-		<None Include="Logo.png" Pack="true" PackagePath="" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <None Update="readme.md" Pack="true" PackagePath="\" />
+		<None Include="Logo.png" Pack="True" PackagePath="\" />
+	    <None Update="readme.md" Pack="true" PackagePath="\" />
 	</ItemGroup>	
 </Project>
 
