@@ -27,6 +27,10 @@ The following methods are included in the package:
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <PackageReference Include="Figgle.Fonts" Version="0.6.5" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<None Update="package-icon.png" Pack="true" PackagePath="\" />
 	    <None Update="readme.md" Pack="true" PackagePath="\" />
 	</ItemGroup>	

@@ -1,4 +1,5 @@
 ﻿using System;
+using Figgle.Fonts;
 
 
 namespace Wifi.Toolbox.Tools
@@ -15,6 +16,23 @@ namespace Wifi.Toolbox.Tools
         public static void WriteColoredMessage(string message)
         {
             WriteColoredMessage(message, ConsoleColor.Yellow);
+        }
+
+        /// <summary>
+        /// Creates a header with ACII Font.
+        /// </summary>
+        /// <param name="headerText">The string which should shown in ASCII fonts</param>
+        /// <param name="headerColor">The color of the header</param>
+        public static void WriteAsciiArtHeader(string headerText, ConsoleColor headerColor)
+        {
+            var oldColor = Console.ForegroundColor;
+            Console.ForegroundColor = headerColor;
+
+            // ASCII-Art aus Text generieren
+            string asciiArt = FiggleFonts.Banner3.Render(headerText);
+
+            Console.WriteLine(asciiArt);
+            Console.ForegroundColor = oldColor;
         }
 
         /// <summary>
