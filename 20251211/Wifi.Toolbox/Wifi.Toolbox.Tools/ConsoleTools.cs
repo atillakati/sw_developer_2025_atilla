@@ -9,6 +9,9 @@ namespace Wifi.Toolbox.Tools
     /// </summary>
     public abstract class ConsoleTools
     {
+        /// <summary>
+        /// Sets the default color in which the user can enter new values.
+        /// </summary>
         public static ConsoleColor DEFAULT_INPUT_COLOR = ConsoleColor.Yellow;
 
         /// <summary>
