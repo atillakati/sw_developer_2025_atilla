@@ -9,13 +9,15 @@ namespace Wifi.Toolbox.Tools
     /// </summary>
     public abstract class ConsoleTools
     {
+        public static ConsoleColor DEFAULT_INPUT_COLOR = ConsoleColor.Yellow;
+
         /// <summary>
-        /// Writes a colored message to the Console. Default color is Yellow.
+        /// Writes a colored message to the Console. Default color is Yellow (DEFAULT_INPUT_COLOR).
         /// </summary>
         /// <param name="message">The message string to write</param>        
         public static void WriteColoredMessage(string message)
         {
-            WriteColoredMessage(message, ConsoleColor.Yellow);
+            WriteColoredMessage(message, DEFAULT_INPUT_COLOR);
         }
 
         /// <summary>
@@ -61,6 +63,7 @@ namespace Wifi.Toolbox.Tools
         public static bool GetBool(string inputPrompt)
         {
             //1. Eingabe der Zahl
+            ConsoleColor oldColor = Console.ForegroundColor;
             bool inputValue = false;
             bool isUserInputValid;
             
@@ -69,13 +72,20 @@ namespace Wifi.Toolbox.Tools
                 try
                 {
                     Console.Write(inputPrompt);
-                    inputValue = bool.Parse(Console.ReadLine());                                                         
+                    
+                    Console.ForegroundColor = DEFAULT_INPUT_COLOR;
+                    inputValue = bool.Parse(Console.ReadLine());
+
                     isUserInputValid = true;                    
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine("\aERROR: " + ex.Message);
                     isUserInputValid = false;
+                }
+                finally
+                {
+                    Console.ForegroundColor = oldColor;
                 }
             }
             while (isUserInputValid == false);
@@ -91,6 +101,7 @@ namespace Wifi.Toolbox.Tools
         /// <exception cref="ArgumentException">When min value is equal or higher than max value</exception>
         public static DateTime GetDateTime(string inputPrompt)
         {
+            ConsoleColor oldColor = Console.ForegroundColor;
             bool isUserInputValid;
             DateTime inputValue = DateTime.MinValue;
 
@@ -99,6 +110,8 @@ namespace Wifi.Toolbox.Tools
                 try
                 {
                     Console.Write(inputPrompt);
+                    
+                    Console.ForegroundColor = DEFAULT_INPUT_COLOR;
                     inputValue = DateTime.Parse(Console.ReadLine());
 
                     isUserInputValid = true;
@@ -106,6 +119,10 @@ namespace Wifi.Toolbox.Tools
                 catch
                 {
                     isUserInputValid = false;
+                }
+                finally
+                {
+                    Console.ForegroundColor = oldColor;
                 }
             }
             while (isUserInputValid == false);
@@ -135,6 +152,7 @@ namespace Wifi.Toolbox.Tools
         public static double GetDouble(string inputPrompt, double minValue, double maxValue)
         {
             //1. Eingabe der Zahl
+            ConsoleColor oldColor = Console.ForegroundColor;
             double inputValue = 0.0;
             bool isUserInputValid;
 
@@ -149,6 +167,8 @@ namespace Wifi.Toolbox.Tools
                 try
                 {
                     Console.Write(inputPrompt);
+                    
+                    Console.ForegroundColor = DEFAULT_INPUT_COLOR;
                     inputValue = double.Parse(Console.ReadLine());
 
                     //2. Range Check durchführen
@@ -165,6 +185,10 @@ namespace Wifi.Toolbox.Tools
                 {
                     Console.WriteLine("\aERROR: " + ex.Message);
                     isUserInputValid = false;
+                }
+                finally
+                {
+                    Console.ForegroundColor = oldColor;
                 }
             }
             while (isUserInputValid == false);
@@ -195,6 +219,7 @@ namespace Wifi.Toolbox.Tools
         public static decimal GetDecimal(string inputPrompt, decimal minValue, decimal maxValue)
         {
             //1. Eingabe der Zahl
+            ConsoleColor oldColor = Console.ForegroundColor;
             decimal inputValue = 0.0m;
             bool isUserInputValid;
 
@@ -209,6 +234,8 @@ namespace Wifi.Toolbox.Tools
                 try
                 {
                     Console.Write(inputPrompt);
+
+                    Console.ForegroundColor = DEFAULT_INPUT_COLOR;
                     inputValue = decimal.Parse(Console.ReadLine());
 
                     //2. Range Check durchführen
@@ -225,6 +252,10 @@ namespace Wifi.Toolbox.Tools
                 {
                     Console.WriteLine("\aERROR: " + ex.Message);
                     isUserInputValid = false;
+                }
+                finally
+                {
+                    Console.ForegroundColor = oldColor;
                 }
             }
             while (isUserInputValid == false);
@@ -243,6 +274,7 @@ namespace Wifi.Toolbox.Tools
         public static int GetInt(string inputPrompt, int minValue, int maxValue)
         {
             //1. Eingabe der Zahl
+            ConsoleColor oldColor = Console.ForegroundColor;
             int inputValue = 0;
             bool isUserInputValid;
 
@@ -257,6 +289,8 @@ namespace Wifi.Toolbox.Tools
                 try
                 {
                     Console.Write(inputPrompt);
+
+                    Console.ForegroundColor = DEFAULT_INPUT_COLOR;
                     inputValue = int.Parse(Console.ReadLine());
 
                     //2. Range Check durchführen
@@ -267,12 +301,16 @@ namespace Wifi.Toolbox.Tools
                     else
                     {
                         isUserInputValid = false;
-                    }                    
+                    }
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine("\aERROR: " + ex.Message);
                     isUserInputValid = false;
+                }
+                finally
+                {
+                    Console.ForegroundColor = oldColor;
                 }
             }
             while (isUserInputValid == false);
