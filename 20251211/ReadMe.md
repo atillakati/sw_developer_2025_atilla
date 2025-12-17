@@ -176,7 +176,7 @@ Alle Änderungen aus diesem Schritt müssen sich schlussendlich im `develop` Bra
 
 
 ## 3. Versionierung & Trigger
-Ich kann empfehlen, dass sämtliche zukünftigen Code-Änderungen für das Nuget Package, in einem eigens dafür angelegten Branch durchgeführt werden sollten. Im Unterricht haben wir dafür gemeinsam einen feature-Branch mit der Bezeichnung `ConsoleTools-Package` angelegt. So bleiben deine Änderungen übersichtlich und wartbar. Dieser feature-Branch muss nie abgeschlossen werden - d.h. Änderungen in diesem Branch einfach comitten, Tag hinzufügen und dann pushen.
+Ich kann empfehlen, dass sämtliche zukünftigen Code-Änderungen für das Nuget Package, in einem eigens dafür angelegten Branch durchgeführt werden. Im Unterricht haben wir dafür gemeinsam einen feature-Branch mit der Bezeichnung `ConsoleTools-Package` angelegt. So bleiben deine Änderungen übersichtlich und wartbar. Dieser feature-Branch muss nie abgeschlossen werden - d.h. Änderungen in diesem Branch einfach comitten, Tag hinzufügen und dann pushen.
 
 Wie im obigen .yml File zu sehen ist, wird der ganze Workflow durch einen Push eines Tags getriggert. d.h. Wenn du einen Stand in deinem Branch hast, welches nun als neue Nuget Version publiziert werden soll, kann der Workflow wie folgt gestartet werden:
 
@@ -189,12 +189,12 @@ Sobald der Tag gepusht ist, kann auf github.com im Repository unter `Actions` de
 
 ![Github-Actions](images/Github_Actions.png)
 
-Wenn die gesamte Konfiguration korrekt durchgeführt worden ist und das Projekt sich auch kompilieren lässt, sollte nun der Workflow erfolgreich (grüner Hacken) ausgeführt werden. Falls diese nicht der Fall ist, kannst du im Workflow (drauf klicken) die genaue Fehlermeldung einsehen. Um den Fehler dann zu beheben => Fehlermeldung recherchieren...
+Wenn die gesamte Konfiguration korrekt durchgeführt worden ist und das Projekt sich auch kompilieren lässt, sollte nun der Workflow erfolgreich (grüner Hacken) ausgeführt werden. Falls dies nicht der Fall ist, kannst du im Workflow (drauf klicken) die genaue Fehlermeldung einsehen. Um den Fehler dann zu beheben => Fehlermeldung recherchieren... ;-)
 
 ## Einbindung in eigene Projekte (VS)
 Damit wir ein Nuget in unseren Projekten verwenden können sind zwei Schritte erforderlich:
-   - Zugriff auf das Nuget herstellen
-   - Einbindung des Nugets in das Projekt (Installation)
+   - Zugriff auf das Nuget herstellen (einmalig pro Rechner)
+   - Einbindung des Nugets in das Projekt (Installation, für jedes Projekt)
 
 ### Zugriff auf das Nuget herstellen
 
@@ -202,16 +202,16 @@ Das Visual Studio greift auf `Nuget-Sources`  zu, aus denen dann die einzelnen v
 
 ![Nuget Package Manager](images/PackageManager.png)
 
-Wenn auf ein Projekt im `Solution-Explorer` mit der rechten Maustaste geklickt wird, ist das Kontextmenü zusehen. Dort befindet sich u.A. der Menüpunt `Manage Nuget-Packages...`. Bitte diesen auswählen - der `Nuget Package Manager` sollte wie oben abgebildet sichtbar sein.
+Wenn auf ein Projekt im `Solution-Explorer` mit der rechten Maustaste geklickt wird, ist das Kontextmenü zu sehen. Dort befindet sich u.A. der Menüpunt `Manage Nuget-Packages...`. Bitte diesen auswählen - der `Nuget Package Manager` sollte wie oben abgebildet sichtbar werden.
 
-Mit einem Klick auf das Zahnrad öffnest du das `Nuget Package Sources` Einstelldialog. In diesem Dialog solltest du zumindest die Source nuget.org sehen. Hier werden wir, wenn wir alle Infos organisiert haben unsere neue Source für unser Nuget Package anlegen.
+Mit einem Klick auf das Zahnrad öffnest du den `Nuget Package Sources` Einstelldialog. In diesem Dialog solltest du zumindest die Source nuget.org sehen. Hier werden wir, wenn wir alle Infos organisiert haben unsere neue Source für unser Nuget Package anlegen.
 
 ![NugetSourceSettings](images/PackageSourceSettings.png)
 
 Damit der Package Manager auf unser Nuget zuugfreifen kann, benötigen wir ein github.com-Token. Dazu bitte folgende Schritte durchführen:
 
-- Melde dich auf [Github](https://github.com/) an dein Account an
-- Geh auf den Avatar ganz rechts oben und öffne das User-Menü und selektiere `Settings`
+- Melde dich auf [Github](https://github.com/) in deinem Account an
+- Geh auf deinen Avatar ganz rechts oben und öffne das User-Menü und selektiere `Settings`
 - Nun scrolle auf der Seite runter zum letzten Menüpunkt auf der linken Seite,  klicke auf den Menüpunkt `<> Developer settings`
 - Selektiere links den Punkt `Personal access tokens` und wähle dann `Tokens (classic)`
 - Nun kannst du ein personal Token anlegen. Klick rechts oben auf den Button `Generate new token` und wähle `Generate new token (classic)`
@@ -229,14 +229,14 @@ Für `Expiration` sollte eine endliche Dauer (zB: 90 Tage) eingetragen werden. B
 
 Mit dem oben markierten Copy-Button könnt ihr nun euren Personal access token (=PAT) kopieren. Diesen benötigen wir im nächsten Schritt. 
 
-**Achtung:** Den Token seht ihr hier und jetzt genau einmal, ein nachträgliches Einsehen der Tokens gibt es nicht, also kopieren nicht vergessen und lasst am Besten die Website noch offen!
+**Achtung:** Den Token seht ihr hier und jetzt genau einmal, ein nachträgliches Einsehen der Tokens gibt es nicht, also kopieren nicht vergessen und lasst am Besten die Website noch offen! Siehe dazu auch auf den Hell-Blau markierten Bereich!
 
 - Im Visual Studio kann nun die Bearbeitung fortgesetzt werden. Auf dem `Nuget Package Sources` Einstelldialog nun auf den Button `+ Add` klicken!
 - Folgende Einstellungen vornehmen:
 
 ![Package Source Add](images/PackageSourceAdd.png)
 
-Name:   `Github YOURNAME`
+Name:   `Github YOURNAME` <br>
 Source: https://nuget.pkg.github.com/YOURUSER/index.json
 
 > Bitte für YOURNAME deinen Namen und für YOURUSER deinen Github Usernamen verwenden!!!!
@@ -246,8 +246,8 @@ Source: https://nuget.pkg.github.com/YOURUSER/index.json
 
 ![Nuget Package Manager](images/PackageManager.png)
 
-- Unter Source sollte nun eure neue Source zu finden sein - bitte diesen auswählen! Sobald diese Source zum ersten Mal ausgewählt wird kommt ein Anmeldedialog, über den ihr Visual Studio Zugriff auf eure Pacakge Source geben müsst. Verwendet dazu bitte euren `Github Usernamen` und das `Token` als Passwort. 
-- Hat alles geklappt, sollte nun im Tab Browse euer Nuget Package aufgelistet werden:
+- Unter Source sollte nun eure neue Source zu finden sein - bitte diesen auswählen! Sobald diese Source zum ersten Mal ausgewählt wird kommt ein Anmeldedialog, über den ihr Visual Studio Zugriff auf eure Package Source geben müsst. Verwendet dazu bitte euren `Github Usernamen` und das `Token` als Passwort. 
+- Hat alles geklappt, sollte nun im Tab `Browse` euer Nuget Package aufgelistet werden:
 
 ![My Package](images/MyPackage.png)
 
@@ -266,7 +266,7 @@ Um in einem .NET Projekt ein Nuget Package zu verwenden müssen folgende Schritt
 
 ![Install Nuget Package](images/InstallNugetPackage.png)
 
-Nun ist das Package im Projekt installiert und du kannst die Typen aus dem Nuget in deinem Projekt verwenden. Vergiss nicht das using hinzuzufügen! Viel Spaß!
+Alle weiteren Dialog mit OK quittierten. Nun ist das Package im Projekt installiert und du kannst die Typen aus dem Nuget in deinem Projekt verwenden. Vergiss nicht das `using` hinzuzufügen! Viel Spaß!
 
 ```csharp
 using System;
