@@ -39,3 +39,9 @@ Weitere Infos zu Markdown:
 
 
 [STRG] + [SHIFT] + P
+
+# Docker
+Docker ist eine Plattform, mit der man Anwendungen in Container verpacken, ausliefern und ausführen kann.
+Container sind leichte, isolierte Umgebungen, die alles enthalten, was eine Anwendung braucht (Code, Bibliotheken, Abhängigkeiten), sodass sie überall gleich läuft – unabhängig vom System.
+
+[Docker Tutorial](https://www.youtube.com/watch?v=3c-iBn73dDE)
