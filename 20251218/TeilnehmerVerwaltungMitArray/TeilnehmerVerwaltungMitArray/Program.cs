@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
 using TeilnehmerVerwaltungMitArray.DataTypes;
@@ -21,15 +22,36 @@ namespace TeilnehmerVerwaltungMitArray
             Console.WriteLine("\t\tDaten darstellen ....... B");
             Console.WriteLine("\t\tEnde ................... Q");  //ToDo
 
-            //ToDo: Extract this section into a new method
+            selection = GetMenuSelection("Bitte wählen: ");
+            if(selection.ToUpper() == "A")
+            {
+                TeilnehmerErfassen();
+            }
+            
+            if(selection.ToUpper() == "B")
+            {
+                Teilnehmer[] teilnehmerListe = ReadTeilnehmerFromFile("meineTeilnehmerListe.csv");
+                DisplayTeilnehmerData(teilnehmerListe);
+            }
+
+            if (selection.ToUpper() == "Q")
+            {
+                return;
+            }
+        }
+
+        static string GetMenuSelection(string inputPrompt)
+        {
+            string? selection;
+            bool valid;
             do
             {
-                Console.Write("Bitte wählen: ");
+                Console.Write(inputPrompt);
                 selection = Console.ReadLine();
 
                 if (string.IsNullOrEmpty(selection) || 
                     selection.Length > 1 || 
-                    "AB".IndexOf(selection.ToUpper()) < 0)
+                    "ABQ".IndexOf(selection.ToUpper()) < 0)
                 {
                     valid = false;
                 }
@@ -40,22 +62,44 @@ namespace TeilnehmerVerwaltungMitArray
             }
             while (!valid);
 
-            if(selection.ToUpper() == "A")
-            {
-                TeilnehmerErfassen();
-            }
-            
-            if(selection.ToUpper() == "B")
-            {
-                Teilnehmer[] teilnehmerListe = ReadTeilnehmerFromFile("meineTeilnehmerListe.csv");
-                DisplayTeilnehmerData(teilnehmerListe);
-            }                
+            return selection;
         }
 
         private static Teilnehmer[] ReadTeilnehmerFromFile(string fileName)
         {
-            //ToDo: Implement Einlesen von CSV Daten aus einer Datei ????
-            return Array.Empty<Teilnehmer>();
+            //get all data lines from File at once
+            string[] lines = File.ReadAllLines(fileName);
+
+            Teilnehmer[] teilnehmerList = new Teilnehmer[lines.Length];
+
+            for (int i = 0; i < lines.Length; i++)
+            {
+                //line => "Gandalf;12.02.1890;;;6666;Mittelerde;"
+                string line = lines[i];
+                string[] parts = line.Split(";");
+
+                try
+                {
+                    Adresse adr = new Adresse
+                    {
+                        Plz = int.Parse(parts[4]),
+                        Wohnort = parts[5]
+                    };
+
+                    teilnehmerList[i] = new Teilnehmer
+                    {
+                        Name = parts[0],
+                        Geburtsdatum = DateTime.Parse(parts[1]),
+                        Wohnadresse = adr
+                    };
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"ERROR: Problems during read process of data line: {line}");
+                }
+            }
+
+            return teilnehmerList;
         }
 
         private static void TeilnehmerErfassen()
@@ -116,6 +160,11 @@ namespace TeilnehmerVerwaltungMitArray
         {
             for (int i = 0; i < teilnehmerListToDisplay.Length; i++)
             {
+                if (string.IsNullOrEmpty(teilnehmerListToDisplay[i].Name))
+                {
+                    continue;
+                }
+
                 DisplayTeilnehmerData(teilnehmerListToDisplay[i]);
                 Console.WriteLine();
             }
