@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Mime;
-using System.Text;
-using System.Threading.Tasks;
-using TeilnehmerVerwaltungMitArray.DataTypes;
+﻿using TeilnehmerVerwaltungMitArray.DataTypes;
 using Wifi.Toolbox.Tools;
 
 namespace TeilnehmerVerwaltungMitArray
@@ -15,7 +9,7 @@ namespace TeilnehmerVerwaltungMitArray
         {   
             bool valid = false;
             string selection = string.Empty;
-            Teilnehmer[] teilnehmerListe = null;
+            Teilnehmer[] teilnehmerListe;
 
             do
             {
@@ -31,7 +25,17 @@ namespace TeilnehmerVerwaltungMitArray
                 selection = GetMenuSelection("\nBitte wählen: ");
                 if (selection.ToUpper() == "A")
                 {
-                    TeilnehmerErfassen();
+                    teilnehmerListe = ReadTeilnehmerFromConsole();
+
+                    //Daten persistieren (File)
+                    foreach (var teilnehmer in teilnehmerListe)
+                    {
+                        string filename = CreateFilename(teilnehmer);
+                        WriteFile(filename, teilnehmer);
+
+                        Console.WriteLine($"{teilnehmer.Name} in Datei {filename} gespeichert.");
+                    }
+
                     Wait();
                 }
 
@@ -51,12 +55,12 @@ namespace TeilnehmerVerwaltungMitArray
             while (true);
         }
 
+
         private static void Wait()
         {
             Console.Write("ENTER für weiter.");
             Console.ReadLine();
         }
-
 
         static string GetMenuSelection(string inputPrompt)
         {
@@ -83,6 +87,8 @@ namespace TeilnehmerVerwaltungMitArray
             return selection;
         }
 
+
+        #region Teilnehmer spezific methods
         private static Teilnehmer[] ReadTeilnehmerFromFile(string fileName)
         {
             Teilnehmer[] teilnehmerList = null;
@@ -104,6 +110,8 @@ namespace TeilnehmerVerwaltungMitArray
                 {
                     Adresse adr = new Adresse
                     {
+                        Strasse = parts[2],
+                        HausNr = parts[3],
                         Plz = int.Parse(parts[4]),
                         Wohnort = parts[5]
                     };
@@ -115,27 +123,30 @@ namespace TeilnehmerVerwaltungMitArray
                         Wohnadresse = adr
                     };
                 }
-                catch (Exception ex)
+                catch
                 {
-                    Console.WriteLine($"ERROR: Problems during read process of data line: {line}");
+                    ConsoleTools.WriteColoredMessage($"ERROR: Problems during read process of data line: {line}", ConsoleColor.Red);
                 }
             }
 
             return teilnehmerList;
         }
 
-        private static void TeilnehmerErfassen()
+        private static Teilnehmer[] ReadTeilnehmerFromConsole()
         {
             //Deklaration 
             int count = 0;            
             Teilnehmer einTeilnehmer;
+            Teilnehmer[] teilnehmerListe;
 
             //Abfrage Anzahl der zu erfassenden Teilnehmer
             count = ConsoleTools.GetInt("Wieviele Teilnehmer wollen Sie erfassen (0 = KEINE): ");
             if (count < 1)
             {
-                return;
+                return Array.Empty<Teilnehmer>();
             }
+
+            teilnehmerListe = new Teilnehmer[count];
 
             Console.WriteLine("Bitte geben Sie die Teilnehmer-Daten ein:");
             for (int i = 0; i < count; i++)
@@ -144,10 +155,11 @@ namespace TeilnehmerVerwaltungMitArray
                 Console.WriteLine($"\nTeilnehmer {i + 1}: ");
                 einTeilnehmer = GetTeilnehmerData();
 
-                //Daten persistieren (File)
-                string filename = CreateFilename(einTeilnehmer);
-                WriteFile(filename, einTeilnehmer);
-            } 
+                //Teilnehmer in der Liste ablegen
+                teilnehmerListe[i] = einTeilnehmer;
+            }
+
+            return teilnehmerListe;
         }
 
         private static void WriteFile(string filename, Teilnehmer tn)
@@ -175,6 +187,8 @@ namespace TeilnehmerVerwaltungMitArray
 
         private static void DisplayTeilnehmerData(Teilnehmer[] teilnehmerListToDisplay)
         {
+            Console.WriteLine();
+
             for (int i = 0; i < teilnehmerListToDisplay.Length; i++)
             {
                 if (string.IsNullOrEmpty(teilnehmerListToDisplay[i].Name))
@@ -192,10 +206,13 @@ namespace TeilnehmerVerwaltungMitArray
             Console.ForegroundColor = ConsoleColor.White;
             
             Console.WriteLine($"\tName: {teilnehmerToDisplay.Name}");
+            if (!string.IsNullOrEmpty(teilnehmerToDisplay.Wohnadresse.Strasse))
+            {
+                Console.WriteLine("\t" + teilnehmerToDisplay.Wohnadresse.Strasse + " " + teilnehmerToDisplay.Wohnadresse.HausNr);
+            }
 
             Console.WriteLine("\t" + teilnehmerToDisplay.Wohnadresse.Plz + " " + teilnehmerToDisplay.Wohnadresse.Wohnort);
             Console.WriteLine("\t" + teilnehmerToDisplay.Geburtsdatum.ToLongDateString());
-            Console.WriteLine();
 
             Console.ResetColor();
         }
@@ -204,17 +221,14 @@ namespace TeilnehmerVerwaltungMitArray
         {
             Teilnehmer einTeilnehmer = new Teilnehmer();
 
-            //Console.WriteLine("Bitte geben Sie folgende Teilnehmer-Daten ein:");
-            Console.Write("\tName: ");
-            einTeilnehmer.Name = Console.ReadLine();
-
-            Console.Write("\tWohnort: ");
-            einTeilnehmer.Wohnadresse.Wohnort = Console.ReadLine();
-
+            einTeilnehmer.Name = ConsoleTools.GetString("\tName: ");
+            einTeilnehmer.Wohnadresse.Wohnort = ConsoleTools.GetString("\tWohnort: ");
             einTeilnehmer.Wohnadresse.Plz = ConsoleTools.GetInt("\tPlz: ");
             einTeilnehmer.Geburtsdatum = ConsoleTools.GetDateTime("\tGeburtstag (dd.mm.yyyy): ");
 
             return einTeilnehmer;
         }
+
+        #endregion
     }
 }

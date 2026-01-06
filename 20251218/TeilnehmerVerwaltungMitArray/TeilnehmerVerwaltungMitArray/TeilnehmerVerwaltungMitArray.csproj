@@ -8,7 +8,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Wifi.Toolbox" Version="1.1.2" />
+    <None Remove="meineTeilnehmerListe.csv" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="meineTeilnehmerListe.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Wifi.Toolbox" Version="1.1.3" />
   </ItemGroup>
 
 </Project>
