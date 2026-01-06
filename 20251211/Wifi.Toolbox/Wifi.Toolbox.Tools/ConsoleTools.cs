@@ -58,6 +58,26 @@ namespace Wifi.Toolbox.Tools
         }
 
         /// <summary>
+        /// Returns a string value form console input.
+        /// </summary>
+        /// <param name="inputPrompt">The input prompt to show to the user</param>        
+        /// <returns>Returns a string value form console input.</returns>
+        public static string GetString(string inputPrompt)
+        {
+            ConsoleColor oldColor = Console.ForegroundColor;
+            string inputValue = string.Empty;
+
+
+            Console.Write(inputPrompt);
+
+            Console.ForegroundColor = DEFAULT_INPUT_COLOR;
+            inputValue = Console.ReadLine();
+            
+            Console.ForegroundColor = oldColor;
+            return inputValue;
+        }
+
+        /// <summary>
         /// Returns a bool value form console input.
         /// </summary>
         /// <param name="inputPrompt">The input prompt to show to the user</param>        
@@ -69,17 +89,17 @@ namespace Wifi.Toolbox.Tools
             ConsoleColor oldColor = Console.ForegroundColor;
             bool inputValue = false;
             bool isUserInputValid;
-            
+
             do
             {
                 try
                 {
                     Console.Write(inputPrompt);
-                    
+
                     Console.ForegroundColor = DEFAULT_INPUT_COLOR;
                     inputValue = bool.Parse(Console.ReadLine());
 
-                    isUserInputValid = true;                    
+                    isUserInputValid = true;
                 }
                 catch (Exception ex)
                 {
@@ -113,7 +133,7 @@ namespace Wifi.Toolbox.Tools
                 try
                 {
                     Console.Write(inputPrompt);
-                    
+
                     Console.ForegroundColor = DEFAULT_INPUT_COLOR;
                     inputValue = DateTime.Parse(Console.ReadLine());
 
@@ -170,7 +190,7 @@ namespace Wifi.Toolbox.Tools
                 try
                 {
                     Console.Write(inputPrompt);
-                    
+
                     Console.ForegroundColor = DEFAULT_INPUT_COLOR;
                     inputValue = double.Parse(Console.ReadLine());
 
@@ -282,7 +302,7 @@ namespace Wifi.Toolbox.Tools
             bool isUserInputValid;
 
             //parameter value check
-            if (minValue >= maxValue) 
+            if (minValue >= maxValue)
             {
                 throw new ArgumentException("Ungültiger Wertebereich definiert.");
             }
@@ -319,7 +339,7 @@ namespace Wifi.Toolbox.Tools
             while (isUserInputValid == false);
 
             return inputValue;
-           
+
         }
 
         /// <summary>
@@ -339,7 +359,7 @@ namespace Wifi.Toolbox.Tools
         /// <param name="titleString">The title to write centered between the border lines</param>
         public static void CreateHeader(string titleString)
         {
-            int startPositionX = 0;            
+            int startPositionX = 0;
 
             string headerBorder = new string('#', Console.WindowWidth - 1);
             Console.WriteLine(headerBorder);
