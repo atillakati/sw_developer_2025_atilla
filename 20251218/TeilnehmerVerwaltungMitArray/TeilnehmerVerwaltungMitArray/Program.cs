@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TeilnehmerVerwaltungMitArray.DataTypes;
+﻿using TeilnehmerVerwaltungMitArray.DataTypes;
+using Wifi.Toolbox.Tools;
 
 namespace TeilnehmerVerwaltungMitArray
 {
@@ -13,23 +9,71 @@ namespace TeilnehmerVerwaltungMitArray
         {   
             bool valid = false;
             string selection = string.Empty;
+            Teilnehmer[] teilnehmerListe;
 
-            //1. Ausgabe Header
-            CreateHeader("Teilnehmer-Verwaltung v4.0");
-            
-            Console.WriteLine("\t\tDaten erfassen ......... A");
-            Console.WriteLine("\t\tDaten darstellen ....... B");
-            Console.WriteLine("\t\tEnde ................... Q");  //ToDo
-
-            //ToDo: Extract this section into a new method
             do
             {
-                Console.Write("Bitte wählen: ");
+                Console.Clear();
+
+                //1. Ausgabe Header
+                ConsoleTools.WriteAsciiArtHeader("-tver-v4.0-", ConsoleColor.Yellow);
+
+                Console.WriteLine("\t\tDaten erfassen ......... A");
+                Console.WriteLine("\t\tDaten darstellen ....... B");
+                Console.WriteLine("\t\tEnde ................... Q"); //ToDo
+
+                selection = GetMenuSelection("\nBitte wählen: ");
+                if (selection.ToUpper() == "A")
+                {
+                    teilnehmerListe = ReadTeilnehmerFromConsole();
+
+                    //Daten persistieren (File)
+                    foreach (var teilnehmer in teilnehmerListe)
+                    {
+                        string filename = CreateFilename(teilnehmer);
+                        WriteFile(filename, teilnehmer);
+
+                        Console.WriteLine($"{teilnehmer.Name} in Datei {filename} gespeichert.");
+                    }
+
+                    Wait();
+                }
+
+                if (selection.ToUpper() == "B")
+                {
+                    teilnehmerListe = ReadTeilnehmerFromFile("meineTeilnehmerListe.csv");
+                    DisplayTeilnehmerData(teilnehmerListe);
+
+                    Wait();
+                }
+
+                if (selection.ToUpper() == "Q")
+                {
+                    return;
+                }
+            }
+            while (true);
+        }
+
+
+        private static void Wait()
+        {
+            Console.Write("ENTER für weiter.");
+            Console.ReadLine();
+        }
+
+        static string GetMenuSelection(string inputPrompt)
+        {
+            string? selection;
+            bool valid;
+            do
+            {
+                Console.Write(inputPrompt);
                 selection = Console.ReadLine();
 
                 if (string.IsNullOrEmpty(selection) || 
                     selection.Length > 1 || 
-                    "AB".IndexOf(selection.ToUpper()) < 0)
+                    "ABQ".IndexOf(selection.ToUpper()) < 0)
                 {
                     valid = false;
                 }
@@ -40,53 +84,82 @@ namespace TeilnehmerVerwaltungMitArray
             }
             while (!valid);
 
-            if(selection.ToUpper() == "A")
-            {
-                TeilnehmerErfassen();
-            }
-            
-            if(selection.ToUpper() == "B")
-            {
-                Teilnehmer[] teilnehmerListe = ReadTeilnehmerFromFile("meineTeilnehmerListe.csv");
-                DisplayTeilnehmerData(teilnehmerListe);
-            }                
+            return selection;
         }
 
+
+        #region Teilnehmer spezific methods
         private static Teilnehmer[] ReadTeilnehmerFromFile(string fileName)
         {
-            //ToDo: Implement Einlesen von CSV Daten aus einer Datei ????
-            return Array.Empty<Teilnehmer>();
+            Teilnehmer[] teilnehmerList = null;
+
+            //get all data lines from File at once
+            string[] lines = File.ReadAllLines(fileName);
+            Console.WriteLine($"{lines.Length} datalines found.");
+
+            //create array
+            teilnehmerList = new Teilnehmer[lines.Length];
+
+            for (int i = 0; i < lines.Length; i++)
+            {
+                //line => "Gandalf;12.02.1890;;;6666;Mittelerde;"
+                string line = lines[i];
+                string[] parts = line.Split(";");
+
+                try
+                {
+                    Adresse adr = new Adresse
+                    {
+                        Strasse = parts[2],
+                        HausNr = parts[3],
+                        Plz = int.Parse(parts[4]),
+                        Wohnort = parts[5]
+                    };
+
+                    teilnehmerList[i] = new Teilnehmer
+                    {
+                        Name = parts[0],
+                        Geburtsdatum = DateTime.Parse(parts[1]),
+                        Wohnadresse = adr
+                    };
+                }
+                catch
+                {
+                    ConsoleTools.WriteColoredMessage($"ERROR: Problems during read process of data line: {line}", ConsoleColor.Red);
+                }
+            }
+
+            return teilnehmerList;
         }
 
-        private static void TeilnehmerErfassen()
+        private static Teilnehmer[] ReadTeilnehmerFromConsole()
         {
             //Deklaration 
             int count = 0;            
             Teilnehmer einTeilnehmer;
             Teilnehmer[] teilnehmerListe;
 
-            //1b. Abfrage Anzahl der zu erfassenden Teilnehmer
-            count = GetInt("Wieviele Teilnehmer wollen Sie erfassen (0 = ENDE): ");
+            //Abfrage Anzahl der zu erfassenden Teilnehmer
+            count = ConsoleTools.GetInt("Wieviele Teilnehmer wollen Sie erfassen (0 = KEINE): ");
+            if (count < 1)
+            {
+                return Array.Empty<Teilnehmer>();
+            }
+
             teilnehmerListe = new Teilnehmer[count];
 
             Console.WriteLine("Bitte geben Sie die Teilnehmer-Daten ein:");
             for (int i = 0; i < count; i++)
             {
-                //2. Teilnehmerdaten erfassen
+                //Teilnehmerdaten erfassen
                 Console.WriteLine($"\nTeilnehmer {i + 1}: ");
                 einTeilnehmer = GetTeilnehmerData();
 
-                //4. Daten persistieren (File)
-                string filename = CreateFilename(einTeilnehmer);
-                WriteFile(filename, einTeilnehmer);
-
-                //neuen Teilnehmer in die Liste hinzufügen
+                //Teilnehmer in der Liste ablegen
                 teilnehmerListe[i] = einTeilnehmer;
             }
 
-            //3. Ausgabe der Daten
-            Console.WriteLine("\nFolgende Daten wurden erfasst:\n");
-            DisplayTeilnehmerData(teilnehmerListe);
+            return teilnehmerListe;
         }
 
         private static void WriteFile(string filename, Teilnehmer tn)
@@ -114,8 +187,15 @@ namespace TeilnehmerVerwaltungMitArray
 
         private static void DisplayTeilnehmerData(Teilnehmer[] teilnehmerListToDisplay)
         {
+            Console.WriteLine();
+
             for (int i = 0; i < teilnehmerListToDisplay.Length; i++)
             {
+                if (string.IsNullOrEmpty(teilnehmerListToDisplay[i].Name))
+                {
+                    continue;
+                }
+
                 DisplayTeilnehmerData(teilnehmerListToDisplay[i]);
                 Console.WriteLine();
             }
@@ -126,10 +206,13 @@ namespace TeilnehmerVerwaltungMitArray
             Console.ForegroundColor = ConsoleColor.White;
             
             Console.WriteLine($"\tName: {teilnehmerToDisplay.Name}");
+            if (!string.IsNullOrEmpty(teilnehmerToDisplay.Wohnadresse.Strasse))
+            {
+                Console.WriteLine("\t" + teilnehmerToDisplay.Wohnadresse.Strasse + " " + teilnehmerToDisplay.Wohnadresse.HausNr);
+            }
 
             Console.WriteLine("\t" + teilnehmerToDisplay.Wohnadresse.Plz + " " + teilnehmerToDisplay.Wohnadresse.Wohnort);
             Console.WriteLine("\t" + teilnehmerToDisplay.Geburtsdatum.ToLongDateString());
-            Console.WriteLine();
 
             Console.ResetColor();
         }
@@ -138,80 +221,14 @@ namespace TeilnehmerVerwaltungMitArray
         {
             Teilnehmer einTeilnehmer = new Teilnehmer();
 
-            //Console.WriteLine("Bitte geben Sie folgende Teilnehmer-Daten ein:");
-            Console.Write("\tName: ");
-            einTeilnehmer.Name = Console.ReadLine();
-
-            Console.Write("\tWohnort: ");
-            einTeilnehmer.Wohnadresse.Wohnort = Console.ReadLine();
-
-            einTeilnehmer.Wohnadresse.Plz = GetInt("\tPlz: ");
-            einTeilnehmer.Geburtsdatum = GetDateTime("\tGeburtstag (dd.mm.yyyy): ");
+            einTeilnehmer.Name = ConsoleTools.GetString("\tName: ");
+            einTeilnehmer.Wohnadresse.Wohnort = ConsoleTools.GetString("\tWohnort: ");
+            einTeilnehmer.Wohnadresse.Plz = ConsoleTools.GetInt("\tPlz: ");
+            einTeilnehmer.Geburtsdatum = ConsoleTools.GetDateTime("\tGeburtstag (dd.mm.yyyy): ");
 
             return einTeilnehmer;
         }
 
-        static DateTime GetDateTime(string inputPrompt)
-        {
-            bool isUserInputValid;
-            DateTime inputValue = DateTime.MinValue;
-
-            do
-            {
-                try
-                {
-                    Console.Write(inputPrompt);
-                    inputValue = DateTime.Parse(Console.ReadLine());
-
-                    isUserInputValid = true;
-                }
-                catch
-                {
-                    isUserInputValid = false;
-                }
-            }
-            while (isUserInputValid == false);
-
-            return inputValue;
-        }
-
-        static int GetInt(string inputPrompt)
-        {
-            int inputValue = 0;
-            bool isUserInputValid;
-
-            do
-            {
-                try
-                {
-                    Console.Write(inputPrompt);
-                    inputValue = int.Parse(Console.ReadLine());
-                    isUserInputValid = true;
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("\aERROR: " + ex.Message);
-                    isUserInputValid = false;
-                }
-            }
-            while (isUserInputValid == false);
-            
-            return inputValue;
-        }
-
-        static void CreateHeader(string titleString)
-        {
-            int startPositionX = 0;
-            //string headerString = "Teilnehmer-Verwaltung v1.0";
-
-            string headerBorder = new string('#', Console.WindowWidth - 1);
-            Console.WriteLine(headerBorder);
-            startPositionX = (Console.WindowWidth - titleString.Length) / 2;
-            Console.CursorLeft = startPositionX;
-            Console.WriteLine(titleString);
-            Console.WriteLine(headerBorder);
-            Console.WriteLine();
-        }
-    
+        #endregion
     }
 }
