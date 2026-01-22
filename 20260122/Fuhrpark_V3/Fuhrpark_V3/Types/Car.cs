@@ -29,7 +29,6 @@ namespace Fuhrpark_V3.Types
 
         public override void Show()
         {
-            base.Show();
             Console.WriteLine($"  => Sitzplätze: {_seatCount}");
         }
     }

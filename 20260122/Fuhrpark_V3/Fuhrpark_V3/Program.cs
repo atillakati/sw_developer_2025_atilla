@@ -8,11 +8,13 @@ namespace Fuhrpark_V3
         {
             var myVehicleList = new Vehicle[]
             {
-                new Car("Fiat e500 City", 165, ConsoleColor.Magenta),
-                new Scooter(),
-                new Scooter("Mikey Mouse Scooter", 35, 150),
-                new RacingCar("BadMobil F1 Edition", 385, ConsoleColor.Gray, DownforceType.Wings),
+                //new Car("Fiat e500 City", 165, ConsoleColor.Magenta),
+                //new Scooter(),
+                //new Scooter("Mikey Mouse Scooter", 35, 150),
+                //new RacingCar("BadMobil F1 Edition", 385, ConsoleColor.Gray, DownforceType.Wings),
             };
+
+            //var einFahrzeug = new Vehicle("Ein Fahrzeug");
 
             ShowVehicles(myVehicleList);
         }
@@ -21,7 +23,8 @@ namespace Fuhrpark_V3
         {
             foreach (var vehicle in myVehicleList)
             {
-                vehicle.Show();                           
+                vehicle.Show();
+                vehicle.SpeedUp(50);
             }
         }
     }
