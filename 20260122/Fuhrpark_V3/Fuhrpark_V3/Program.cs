@@ -22,9 +22,11 @@ namespace Fuhrpark_V3
         private static void ShowVehicles(IVehicle[] myVehicleList)
         {
             foreach (var vehicle in myVehicleList)
-            {
-                vehicle.Show();
+            {                
                 vehicle.SpeedUp(50);
+                vehicle.Show();
+
+                Console.WriteLine();
             }
         }
     }
