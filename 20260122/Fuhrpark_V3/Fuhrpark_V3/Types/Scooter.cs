@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Fuhrpark_V3.Types
 {
-    internal class Scooter : Vehicle
+    internal class Scooter : VehicleBase
     {
         private const int DEFAULT_MAX_SPEED = 28;
 		private int _maxDistance;
