@@ -37,6 +37,11 @@
             erg = Filter(meinZahlen, x => x > 10 && x < 20);
             erg = Filter(meinZahlen, x => x != 5);
 
+            //LINQ
+            var result = meinZahlen
+                                .Where(x => x > 5)
+                                .Select(x => x.ToString())
+                                .ToList();
         }
 
         private static bool GeradeZahlenFilter(int arg)
@@ -49,7 +54,7 @@
             return false;
         }
 
-        private static int[] Filter(int[] zahlen, Predicate<int> filterCriteria)
+        private static int[] Filter(IEnumerable<int> zahlen, Predicate<int> filterCriteria)
         {
             var filteredValues = new List<int>();
 
