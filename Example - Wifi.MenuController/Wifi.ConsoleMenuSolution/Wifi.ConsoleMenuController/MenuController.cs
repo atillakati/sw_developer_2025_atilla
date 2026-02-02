@@ -50,18 +50,22 @@
 
             do
             {
-                Console.Write(inputPrompt);
+                unsupportedInput = true;
 
+                Console.Write(inputPrompt);                
                 var input = Console.ReadKey(true);
+                
                 foreach (var item in _menuItems)
                 {
                     if (item.SelectionCode == input.KeyChar)
                     {
                         selectedItem = item;
                         unsupportedInput = false;
+                        break;
                     }
-                }
-                unsupportedInput = true;
+                }                
+
+                Console.WriteLine();
             }
             while(unsupportedInput);
 

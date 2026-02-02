@@ -7,6 +7,7 @@
         int Width { get; }
         Action ExecuteAction { get; }
 
+        void Execute();
         void Display();
     }
 }

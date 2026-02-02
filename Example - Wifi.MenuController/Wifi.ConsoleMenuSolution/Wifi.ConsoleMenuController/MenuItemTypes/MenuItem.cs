@@ -28,9 +28,17 @@
 
         public Action ExecuteAction => _executeAction;
 
-        public void Display()
+        public void Execute()
         {
-            Console.WriteLine($"{_description} {new string('.', _width-_description.Length)} {_selectionCode}");
+            if(_executeAction != null)
+            {
+                _executeAction();
+            }
+        }
+
+        public virtual void Display()
+        {
+            Console.WriteLine($"{_description} {new string('.', _width - _description.Length)} {_selectionCode}");
         }
     }
 }
