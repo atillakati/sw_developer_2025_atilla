@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Wifi.PlaylistEditor.BaseTypes.Test/Wifi.PlaylistEditor.BaseTypes.Test.csproj" />
+  <Project Path="Wifi.PlaylistEditor.BaseTypes/Wifi.PlaylistEditor.BaseTypes.csproj" />
+</Solution>
