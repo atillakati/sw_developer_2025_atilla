@@ -1,4 +1,6 @@
-﻿namespace Wifi.ConsoleMenuController
+﻿using static System.Collections.Specialized.BitVector32;
+
+namespace Wifi.ConsoleMenuController
 {
     public class MenuController
     {
@@ -45,29 +47,31 @@
 
         public IMenuItem GetSelection(string inputPrompt)
         {
-            bool unsupportedInput = true;
-            IMenuItem selectedItem = null;
+            //bool unsupportedInput = true;
+            IMenuItem? selectedItem = null;
 
             do
             {
-                unsupportedInput = true;
+                //unsupportedInput = true;
 
                 Console.Write(inputPrompt);                
                 var input = Console.ReadKey(true);
-                
-                foreach (var item in _menuItems)
-                {
-                    if (item.SelectionCode == input.KeyChar)
-                    {
-                        selectedItem = item;
-                        unsupportedInput = false;
-                        break;
-                    }
-                }                
+
+                selectedItem = _menuItems.Where(x => x.SelectionCode == input.KeyChar)
+                                         .FirstOrDefault();
+                //foreach (var item in _menuItems)
+                //{
+                //    if (item.SelectionCode == input.KeyChar)
+                //    {
+                //        selectedItem = item;
+                //        unsupportedInput = false;
+                //        break;
+                //    }
+                //}                
 
                 Console.WriteLine();
             }
-            while(unsupportedInput);
+            while(selectedItem == null);
 
             return selectedItem;
         }

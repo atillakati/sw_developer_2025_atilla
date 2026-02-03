@@ -15,13 +15,17 @@ namespace Wifi.TestApplication
             ctrl.AddItem(new EmptyMenuItem());
             ctrl.AddItem(new ColoredMenuItem("Programm Ende", 'E', QuitApplication, ConsoleColor.Yellow));
 
-            ctrl.Display();
-            Console.WriteLine();
-
-            var selection = ctrl.GetSelection("Ihre Wahl: ");
-            if (selection != null)
+            while (true)
             {
-                selection.Execute();
+                Console.Clear();
+                ctrl.Display();
+                Console.WriteLine();
+
+                var selection = ctrl.GetSelection("Ihre Wahl: ");
+                if (selection != null)
+                {
+                    selection.Execute();
+                }
             }
         }
 
@@ -30,16 +34,19 @@ namespace Wifi.TestApplication
         private static void FileSave()
         {
             Console.WriteLine("\nHier werden die Daten gespeichert.....\n");
+            Console.ReadLine();
         }
 
         private static void FileCreate()
         {
             Console.WriteLine("\nHier wird nun eine neue Datei erzeugt....\n");
+            Console.ReadLine();
         }
 
         private static void FileLoad()
         {
             Console.WriteLine("\nHier werden nun die Daten geladen....\n");
+            Console.ReadLine();
         }
 
         private static void QuitApplication()
