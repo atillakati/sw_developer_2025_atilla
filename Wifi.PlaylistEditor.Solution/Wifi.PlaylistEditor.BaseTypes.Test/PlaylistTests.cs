@@ -6,7 +6,7 @@ namespace Wifi.PlaylistEditor.BaseTypes.Test
     [TestFixture]
     public class PlaylistTests
     {
-        private Playlist _fixture;
+        private IPlaylist _fixture;
         private Mock<IPlaylistItem> _mockedItem1;
         private Mock<IPlaylistItem> _mockedItem2;
 
