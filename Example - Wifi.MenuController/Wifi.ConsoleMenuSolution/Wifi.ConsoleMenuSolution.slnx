@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Wifi.ConsoleMenuController/Wifi.ConsoleMenuController.csproj" />
+  <Project Path="Wifi.TestApplication/Wifi.TestApplication.csproj" />
+</Solution>
