@@ -45,7 +45,7 @@
 
 
 		public void Add(IPlaylistItem newItem)
-		{
+		{			
 			_items.Add(newItem);
 		}
 
