@@ -11,8 +11,8 @@ namespace Wifi.PlaylistEditor.BaseTypes
         string Extension { get; }
         string Description { get; }
 
-        void Save(Playlist playlist, string filePath);
+        void Save(IPlaylist playlist, string filePath);
 
-        Playlist Load(string filePath);
+        IPlaylist Load(string filePath);
     }
 }
