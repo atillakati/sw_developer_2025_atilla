@@ -9,7 +9,7 @@ namespace Wifi.PlaylistEditor.BaseTypes
 
         TimeSpan Duration { get; }
 
-        string Path { get; }
+        string FilePath { get; }
         Bitmap Thumbnail { get; }
     }
 }
