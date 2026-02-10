@@ -18,7 +18,7 @@ namespace Wifi.PlaylistEditor.ItemTypes
         public Mp3Item(string filePath)
         {
             var mp3 = new Mp3(filePath);
-            var id3Tag = mp3.GetTag(Id3TagFamily.Version2X);
+            var id3Tag = mp3.GetTag(Id3TagFamily.Version2X);            
 
             _title = id3Tag.Title;
             _artist = id3Tag.Artists;

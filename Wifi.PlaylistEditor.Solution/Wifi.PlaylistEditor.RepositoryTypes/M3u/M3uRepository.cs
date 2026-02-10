@@ -7,13 +7,44 @@ namespace Wifi.PlaylistEditor.RepositoryTypes.M3u
 {
     public class M3uRepository : IPlaylistRepository
     {
+        private readonly IPlaylistItemFactory _playlistItemFactory;
+
+        public M3uRepository(IPlaylistItemFactory playlistItemFactory)
+        {
+            _playlistItemFactory = playlistItemFactory;
+        }
+
         public string Extension => ".m3u";
 
         public string Description => "M3U playlist format";
 
         public IPlaylist Load(string filePath)
         {
-            throw new NotImplementedException();
+            //Playlistdatei öffnen und Entity Objekte holen
+            M3uPlaylist playlistEntity = null;
+
+            using (var stream = new StreamReader(filePath))
+            {
+                var content = new M3uContent();
+                playlistEntity = content.GetFromStream(stream.BaseStream);
+            }
+            
+            var itemPaths = playlistEntity.GetTracksPaths();
+
+            //create Playlist
+            var playlist = new Playlist(Path.GetFileNameWithoutExtension(filePath), "NoName");
+
+            //create items
+            foreach (var itempath in itemPaths)
+            {
+                var item = _playlistItemFactory.Create(itempath);  
+                if(item != null)
+                {
+                    playlist.Add(item); 
+                }
+            }
+
+            return playlist;
         }
 
         public void Save(IPlaylist playlist, string filePath)
@@ -22,18 +53,24 @@ namespace Wifi.PlaylistEditor.RepositoryTypes.M3u
 
             playlistEntity.IsExtended = true;
 
-            playlistEntity.PlaylistEntries.Add(new M3uPlaylistEntry()
+            foreach (var item in playlist.Items)
             {
-                Album = "New album",
-                AlbumArtist = "",
-                Duration = TimeSpan.FromSeconds(175),
-                Path = @"C:\Music\song.mp3",
-                Title = "Track Title"
-            });
+                //convert domain item => entity item
+                var itemEntity = new M3uPlaylistEntry
+                {
+                    AlbumArtist = item.Artist,
+                    Title = item.Title,
+                    Duration = item.Duration,
+                    Path = item.FilePath
+                };
+
+                playlistEntity.PlaylistEntries.Add(itemEntity);
+            }                        
 
             M3uContent content = new M3uContent();
             string text = content.ToText(playlistEntity);
             
+            File.WriteAllText(filePath, text);
         }
     }
 }
